@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: team_standup_and_sprint_tracker_svc
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/sprint_tracker}
+    username: ${DB_USER:username}
+    password: ${DB_PASSWORD:sprint123}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=60s
+
+devpulse:
+  jwt:
+    secret: ${JWT_SECRET:change-this-dev-only-secret-key-devpulse-standup-sprint-tracker-32bytes-min}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.sprinttracker: INFO
